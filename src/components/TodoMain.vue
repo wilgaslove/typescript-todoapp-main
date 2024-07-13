@@ -22,7 +22,17 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'delete-todo', todo: Todo): void
+  (e: 'update-todo', todo: Todo, completeVal: boolean): void
+  (e: 'edit-todo', todo: Todo, value: string): void
 }>()
+
+
+
+function editTodo() {
+  emit('edit-todo', props.todo, editText.value); //emettre un event
+
+
+}
 </script>
 
 <style scoped></style>
