@@ -28,6 +28,10 @@ function addTodo(value: string): void {
 function deleteTodo(todo: Todo): void {
   todos.value = todos.value.filter((t) => t !== todo)
 }
+
+function updateTodo(doto: Todo, completedValue: boolean) {
+  todo.complete = completedValue
+}
 </script>
 
 <style scoped></style>
