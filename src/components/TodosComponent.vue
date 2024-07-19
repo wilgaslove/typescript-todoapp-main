@@ -18,13 +18,18 @@ import TodoHeader from '@/components/TodoHeader.vue'
 import TodoMain from '@/components/TodoMain.vue'
 import TodoFooter from '@/components/TodoFooter.vue'
 import type { Todo } from '@/@types'
-import { ref } from 'vue'
 import { nanoid } from 'nanoid'
 import { useStorage } from '@vueuse/core'
-// import { todo } from 'node:test'
 
-// const todos = ref<Todo[]>([])
 const todos = useStorage<Todo[]>('todoapp-todos', [])
+
+const filters = {
+  all: todos,
+  waiting: todos.value.filter((todos) => !todos.complete),
+  completed: todos.value.filter((todo) => todo.complete),
+}
+
+
 function addTodo(value: string): void {
   if (value.trim().length === 0) {
     // si la tâche est vide,
