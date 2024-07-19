@@ -6,14 +6,15 @@
       <button class="destroy" @click="emit('delete-todo', todo)"></button>
     </div>
     <div class="input-container">
-      <input 
-      ref="editRef"
-      id="edit-to-input" 
-      type="text" 
-      class="edit" 
-      v-model="editInput" 
-      @keyup.enter="finishEdit" 
-      @blur="concelEdit" />
+      <input
+        ref="editRef"
+        id="edit-to-input"
+        type="text"
+        class="edit"
+        v-model="editInput"
+        @keyup.enter="finishEdit"
+        @blur="concelEdit"
+      />
       <label class="visually-hidden" for="edit-to-input">Editer</label>
     </div>
   </li>
@@ -25,8 +26,7 @@
 import type { Todo } from '@/@types'
 import { computed, nextTick, ref, watch } from 'vue'
 
-
-const editRef = ref<HTMLInputElement>();// élement du DOM
+const editRef = ref<HTMLInputElement>() // élement du DOM
 const props = defineProps<{
   todo: Todo
 }>()
@@ -34,7 +34,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'delete-todo', todo: Todo): void
   (e: 'update-todo', todo: Todo, completeVal: boolean): void
-  (e: 'edit-todo', todo:  Todo, value: string): void
+  (e: 'edit-todo', todo: Todo, value: string): void
 }>()
 
 // const isTodoCompleted = computed<boolean>({
@@ -44,9 +44,8 @@ const emit = defineEmits<{
 
 const isTodoCompleted = ref<boolean>(props.todo.complete)
 
-
 watch(isTodoCompleted, (newVal) => {
-emit('update-todo', props.todo, newVal)
+  emit('update-todo', props.todo, newVal)
 })
 
 // watch(
@@ -70,26 +69,23 @@ function startEditing() {
   editing.value = true
 
   //faire un focus sur le champ de saisie
-  nextTick(()=> {
-    editRef.value?.focus();
+  nextTick(() => {
+    editRef.value?.focus()
   })
 }
 
 function finishEdit() {
   editing.value = false
-  editTodo();
+  editTodo()
 }
 
 function editTodo() {
-  emit('edit-todo', props.todo, editText.value); //emettre un event
+  emit('edit-todo', props.todo, editText.value) //emettre un event
 
-  editText.value = "";
-
+  editText.value = ''
 }
 
-function concelEdit() {
-
-}
+function concelEdit() {}
 </script>
 
 <style scoped>
@@ -102,5 +98,7 @@ function concelEdit() {
   margin: -1;
   padding: 0;
   overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
 }
 </style>

@@ -26,12 +26,8 @@ const emit = defineEmits<{
   (e: 'edit-todo', todo: Todo, value: string): void
 }>()
 
-
-
 function editTodo() {
-  emit('edit-todo', props.todo, editText.value); //emettre un event
-
-
+  emit('edit-todo', props.todo, editText.value) //emettre un event
 }
 </script>
 

@@ -2,11 +2,7 @@
   <div>
     <TodoHeader @add-todo="addTodo" />
 
-    <TodoMain :taches="todos" 
-    @delete-todo="deleteTodo" 
-    @update-todo="updateTodo" 
-
-    />
+    <TodoMain :taches="todos" @delete-todo="deleteTodo" @update-todo="updateTodo" />
 
     <TodoFooter :todos="todos" />
   </div>
@@ -38,7 +34,7 @@ function updateTodo(doto: Todo, completedValue: boolean) {
 }
 
 function editTodo(todo: Todo, value: string) {
-  todo.title = value 
+  todo.title = value
 }
 </script>
 
