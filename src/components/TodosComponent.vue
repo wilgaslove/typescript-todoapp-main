@@ -2,8 +2,8 @@
   <div>
     <TodoHeader @add-todo="addTodo" />
 
-    <TodoMain
-      :taches="todos"
+    <TodoMain 
+      :taches="filteredTodos"
       @delete-todo="deleteTodo"
       @update-todo="updateTodo"
       @edit-todo="editTodo"
@@ -20,15 +20,37 @@ import TodoFooter from '@/components/TodoFooter.vue'
 import type { Todo } from '@/@types'
 import { nanoid } from 'nanoid'
 import { useStorage } from '@vueuse/core'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 
 const todos = useStorage<Todo[]>('todoapp-todos', [])
 
-const filters = {
-  all: todos,
-  waiting: todos.value.filter((todos) => !todos.complete),
-  completed: todos.value.filter((todo) => todo.complete),
-}
+const route = useRoute()
 
+const filters = computed(() => {
+  return {
+  
+    all: todos,
+    waiting: todos.value.filter((todos) => !todos.complete),
+    completed: todos.value.filter((todo) => todo.complete)
+  }
+}
+) 
+
+const waitingTodos = computed<Todo[]>(() => filters.value.waiting)
+const completedTodos = computed<Todo[]>(() => filters.value.completed)
+
+const filteredTodos = computed(() => {
+  switch (route.name) {
+    case 'waiting':
+      return waitingTodos
+
+    case 'completed':
+      return completedTodos.value
+    default:
+      return todos.value
+  }
+})
 
 function addTodo(value: string): void {
   if (value.trim().length === 0) {
