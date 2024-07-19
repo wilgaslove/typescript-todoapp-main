@@ -7,8 +7,13 @@
     </div>
     <div class="input-container">
       <input 
-      ref="edit-ref"
-       id="edit-to-input" type="text" class="edit" v-model="editInput" @keyup.enter="finishEdit" @blur="concelEdit" />
+      ref="editRef"
+      id="edit-to-input" 
+      type="text" 
+      class="edit" 
+      v-model="editInput" 
+      @keyup.enter="finishEdit" 
+      @blur="concelEdit" />
       <label class="hidden" for="edit-to-input">Editer</label>
     </div>
   </li>
@@ -18,12 +23,10 @@
 
 <script setup lang="ts">
 import type { Todo } from '@/@types'
-// import type { todo } from 'node:test';
-// import { start } from 'repl';
-import { computed, ref, watch } from 'vue'
-// import { emit } from 'process';
+import { computed, nextTick, ref, watch } from 'vue'
 
-const editRef = ref<HTMLInputElement>();
+
+const editRef = ref<HTMLInputElement>();// élement du DOM
 const props = defineProps<{
   todo: Todo
 }>()
@@ -61,7 +64,9 @@ function startEditing() {
   editing.value = true
 
   //faire un focus sur le champ de saisie
-  editRef.value?.focus();
+  nextTick(()=> {
+    editRef.value?.focus();
+  })
 }
 
 function finishEdit() {
