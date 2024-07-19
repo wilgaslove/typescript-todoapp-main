@@ -6,6 +6,7 @@
         :key="todo.id"
         :todo="todo"
         @delete-todo="emit('delete-todo', todo)"
+        @edit-todo="editTodo"
       />
     </ul>
   </main>
@@ -16,7 +17,7 @@ import type { Todo } from '@/@types'
 import TodoItem from '@/components/TodoItem.vue'
 // const props = defineProps(['taches']);
 
-const props = defineProps<{
+defineProps<{
   taches: Todo[]
 }>()
 
@@ -26,8 +27,8 @@ const emit = defineEmits<{
   (e: 'edit-todo', todo: Todo, value: string): void
 }>()
 
-function editTodo() {
-  emit('edit-todo', props.todo, editText.value) //emettre un event
+function editTodo(todo: Todo, value: string) {
+  emit('edit-todo', todo, value) //emettre un event
 }
 </script>
 

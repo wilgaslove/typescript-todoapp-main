@@ -43,8 +43,7 @@ const completedTodos = computed<Todo[]>(() => filters.value.completed)
 const filteredTodos = computed(() => {
   switch (route.name) {
     case 'waiting':
-      return waitingTodos
-
+      return waitingTodos.value
     case 'completed':
       return completedTodos.value
     default:
