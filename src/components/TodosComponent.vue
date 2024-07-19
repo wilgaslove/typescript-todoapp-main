@@ -2,7 +2,12 @@
   <div>
     <TodoHeader @add-todo="addTodo" />
 
-    <TodoMain :taches="todos" @delete-todo="deleteTodo" @update-todo="updateTodo" />
+    <TodoMain
+      :taches="todos"
+      @delete-todo="deleteTodo"
+      @update-todo="updateTodo"
+      @edit-todo="editTodo"
+    />
 
     <TodoFooter :todos="todos" />
   </div>
@@ -15,9 +20,16 @@ import TodoFooter from '@/components/TodoFooter.vue'
 import type { Todo } from '@/@types'
 import { ref } from 'vue'
 import { nanoid } from 'nanoid'
+import { useStorage } from '@vueuse/core'
+// import { todo } from 'node:test'
 
-const todos = ref<Todo[]>([])
+// const todos = ref<Todo[]>([])
+const todos = useStorage<Todo[]>('todoapp-todos', [])
 function addTodo(value: string): void {
+  if (value.trim().length === 0) {
+    // si la tâche est vide,
+    return // on soirt de la function sans rien faire
+  }
   todos.value.push({
     id: nanoid(),
     title: value,
@@ -30,7 +42,7 @@ function deleteTodo(todo: Todo): void {
 }
 
 function updateTodo(doto: Todo, completedValue: boolean) {
-  todo.complete = completedValue
+  doto.complete = completedValue
 }
 
 function editTodo(todo: Todo, value: string) {

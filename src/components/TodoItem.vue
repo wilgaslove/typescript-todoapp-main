@@ -5,6 +5,7 @@
       <label @dblclick="startEditing">{{ todo.title }}</label>
       <button class="destroy" @click="emit('delete-todo', todo)"></button>
     </div>
+
     <div class="input-container">
       <input
         ref="editRef"
@@ -85,7 +86,10 @@ function editTodo() {
   editText.value = ''
 }
 
-function concelEdit() {}
+function concelEdit() {
+  // emit('edit-todo', props.todo, editText.value);
+  editing.value = false
+}
 </script>
 
 <style scoped>
