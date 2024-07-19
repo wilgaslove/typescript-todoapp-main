@@ -4,9 +4,9 @@
 
     <TodoMain
       :taches="filteredTodos"
-      @delete-todo="deleteTodo"
       @update-todo="updateTodo"
       @edit-todo="editTodo"
+      @delete-todo="deleteCompleted"
     />
 
     <TodoFooter :todos="todos" />
@@ -71,6 +71,11 @@ function updateTodo(doto: Todo, completedValue: boolean) {
 
 function editTodo(todo: Todo, value: string) {
   todo.title = value
+}
+
+
+function deleteCompleted(){
+  todos.value = todos.value.filter((todo) => !todo.complete)
 }
 </script>
 

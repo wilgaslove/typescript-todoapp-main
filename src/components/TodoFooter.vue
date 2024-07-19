@@ -21,7 +21,7 @@
       </li>
     </ul>
 
-    <button class="clear-completed">Eff. tâches terminées</button>
+    <button class="clear-completed" @click="emit('delete-completed')" v-show="todos.some((todo) => todo.complete === true)">Eff. tâches terminées</button>
   </footer>
 </template>
 
@@ -33,6 +33,11 @@ import { useRoute } from 'vue-router'
 const props = defineProps<{
   todos: Todo[]
 }>()
+
+const emit = defineEmits<{
+  (e: 'delete-completed'): void
+}>()
+
 const route = useRoute()
 const remaining = computed(() => props.todos.filter((todo) => !todo.complete).length)
 </script>
