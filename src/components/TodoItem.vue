@@ -14,7 +14,7 @@
       v-model="editInput" 
       @keyup.enter="finishEdit" 
       @blur="concelEdit" />
-      <label class="hidden" for="edit-to-input">Editer</label>
+      <label class="visually-hidden" for="edit-to-input">Editer</label>
     </div>
   </li>
 
@@ -44,12 +44,18 @@ const emit = defineEmits<{
 
 const isTodoCompleted = ref<boolean>(props.todo.complete)
 
-watch(
-  () => isTodoCompleted.value,
-  (newVal) => {
-    emit('update-todo', props.todo, newVal)
-  }
-)
+
+watch(isTodoCompleted, (newVal) => {
+emit('update-todo', props.todo, newVal)
+})
+
+// watch(
+//   () => isTodoCompleted.value,
+//   (newVal) => {
+//     alert("emit('update-todo')")
+//     emit('update-todo', props.todo, newVal)
+//   }
+// )
 
 const editing = ref<boolean>(false)
 const editText = ref<string>('')
@@ -86,4 +92,15 @@ function concelEdit() {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.visually-hidden {
+  bottom: 0;
+  clip: rect(0 0 0 0);
+  clip-path: 50%;
+  height: 1px;
+  width: 1px;
+  margin: -1;
+  padding: 0;
+  overflow: hidden;
+}
+</style>
