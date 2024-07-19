@@ -2,7 +2,7 @@
   <div>
     <TodoHeader @add-todo="addTodo" />
 
-    <TodoMain 
+    <TodoMain
       :taches="filteredTodos"
       @delete-todo="deleteTodo"
       @update-todo="updateTodo"
@@ -29,13 +29,11 @@ const route = useRoute()
 
 const filters = computed(() => {
   return {
-  
     all: todos,
     waiting: todos.value.filter((todos) => !todos.complete),
     completed: todos.value.filter((todo) => todo.complete)
   }
-}
-) 
+})
 
 const waitingTodos = computed<Todo[]>(() => filters.value.waiting)
 const completedTodos = computed<Todo[]>(() => filters.value.completed)
