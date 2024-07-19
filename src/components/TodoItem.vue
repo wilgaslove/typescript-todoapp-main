@@ -6,7 +6,9 @@
       <button class="destroy" @click="emit('delete-todo', todo)"></button>
     </div>
     <div class="input-container">
-      <input id="edit-to-input" type="text" class="edit" v-model="editInput" @keyup.enter="finishEdit" @blur="concelEdit" />
+      <input 
+      ref="edit-ref"
+       id="edit-to-input" type="text" class="edit" v-model="editInput" @keyup.enter="finishEdit" @blur="concelEdit" />
       <label class="hidden" for="edit-to-input">Editer</label>
     </div>
   </li>
@@ -21,6 +23,7 @@ import type { Todo } from '@/@types'
 import { computed, ref, watch } from 'vue'
 // import { emit } from 'process';
 
+const editRef = ref<HTMLInputElement>();
 const props = defineProps<{
   todo: Todo
 }>()
@@ -56,6 +59,9 @@ const editInput = computed({
 
 function startEditing() {
   editing.value = true
+
+  //faire un focus sur le champ de saisie
+  editRef.value?.focus();
 }
 
 function finishEdit() {
