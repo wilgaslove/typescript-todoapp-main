@@ -7,21 +7,27 @@
     </span>
     <ul class="filters">
       <li>
-        <router-link :class="{ seletied: route.path === '/' }" to="/">Tous</router-link>
+        <router-link :class="{ selected: route.path === '/' }" to="/">Tous</router-link>
       </li>
       <li>
-        <router-link :class="{ seletied: route.path === '/waiting' }" to="/waiting"
+        <router-link :class="{ selected: route.path === '/waiting' }" to="/waiting"
           >En cours</router-link
         >
       </li>
       <li>
-        <router-link :class="{ seletied: route.path === '/completed' }" to="/completed"
+        <router-link :class="{ selected: route.path === '/completed' }" to="/completed"
           >Terminés</router-link
         >
       </li>
     </ul>
 
-    <button class="clear-completed" @click="emit('delete-completed')" v-show="todos.some((todo) => todo.complete === true)">Eff. tâches terminées</button>
+    <button
+      class="clear-completed"
+      @click="emit('delete-completed')"
+      v-show="todos.some((todo) => todo.complete)"
+    >
+      Eff. tâches terminées
+    </button>
   </footer>
 </template>
 

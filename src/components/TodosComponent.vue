@@ -4,12 +4,13 @@
 
     <TodoMain
       :taches="filteredTodos"
+      @delete-todo="deleteTodo"
       @update-todo="updateTodo"
       @edit-todo="editTodo"
-      @delete-todo="deleteCompleted"
+      @toggle-all-input="toggleAllInput"
     />
 
-    <TodoFooter :todos="todos" />
+    <TodoFooter :todos="todos" @delete-completed="deleteCompleted" />
   </div>
 </template>
 
@@ -24,13 +25,12 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
 const todos = useStorage<Todo[]>('todoapp-todos', [])
-
 const route = useRoute()
 
 const filters = computed(() => {
   return {
     all: todos,
-    waiting: todos.value.filter((todos) => !todos.complete),
+    waiting: todos.value.filter((todo) => !todo.complete),
     completed: todos.value.filter((todo) => todo.complete)
   }
 })
@@ -52,8 +52,9 @@ const filteredTodos = computed(() => {
 function addTodo(value: string): void {
   if (value.trim().length === 0) {
     // si la tâche est vide,
-    return // on soirt de la function sans rien faire
+    return // on sort de la fonction sans rien faire
   }
+
   todos.value.push({
     id: nanoid(),
     title: value,
@@ -65,17 +66,22 @@ function deleteTodo(todo: Todo): void {
   todos.value = todos.value.filter((t) => t !== todo)
 }
 
-function updateTodo(doto: Todo, completedValue: boolean) {
-  doto.complete = completedValue
+function updateTodo(todo: Todo, completedValue: boolean) {
+  todo.complete = completedValue
 }
 
 function editTodo(todo: Todo, value: string) {
   todo.title = value
 }
 
-
-function deleteCompleted(){
+function deleteCompleted() {
   todos.value = todos.value.filter((todo) => !todo.complete)
+}
+
+function toggleAllInput(value: boolean) {
+  todos.value.forEach((todo) => {
+    todo.complete = value
+  })
 }
 </script>
 

@@ -1,11 +1,16 @@
 <template>
-  <main class="main">
+  <main class="main" v-show="taches.length > 0">
+    <div class="">
+      <input id="toggle-all-input" type="checkbox" class="toggle-all" v-model="toggleAll" />
+      <label htmlFor="toggle-all-input">Switcher toutes les tâches</label>
+    </div>
     <ul class="todo-list">
       <TodoItem
         v-for="todo in taches"
         :key="todo.id"
         :todo="todo"
         @delete-todo="emit('delete-todo', todo)"
+        @update-todo="updateTodo"
         @edit-todo="editTodo"
       />
     </ul>
@@ -15,9 +20,9 @@
 <script setup lang="ts">
 import type { Todo } from '@/@types'
 import TodoItem from '@/components/TodoItem.vue'
-// const props = defineProps(['taches']);
+import { computed } from 'vue'
 
-defineProps<{
+const props = defineProps<{
   taches: Todo[]
 }>()
 
@@ -25,10 +30,21 @@ const emit = defineEmits<{
   (e: 'delete-todo', todo: Todo): void
   (e: 'update-todo', todo: Todo, completeVal: boolean): void
   (e: 'edit-todo', todo: Todo, value: string): void
+  (e: 'toggle-all-input', value: boolean): void
 }>()
+const toggleAll = computed<boolean>({
+  get: () => props.taches.every((todo) => todo.complete),
+  set: (value: boolean) => {
+    emit('toggle-all-input', value)
+  }
+})
+
+function updateTodo(todo: Todo, completedValue: boolean) {
+  emit('update-todo', todo, completedValue)
+}
 
 function editTodo(todo: Todo, value: string) {
-  emit('edit-todo', todo, value) //emettre un event
+  emit('edit-todo', todo, value)
 }
 </script>
 
