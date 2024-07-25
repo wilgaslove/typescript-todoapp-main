@@ -1,4 +1,6 @@
+import LoginView from '@/views/LoginView.vue'
 import TodoView from '@/views/TodoView.vue'
+import { useAuth } from '@vueuse/firebase'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -18,8 +20,29 @@ const router = createRouter({
       path: '/completed',
       name: 'completed',
       component: TodoView
-    }
+    },
+
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginView
+    },
+    
+    {
+      path: '/register',
+      name: 'register',
+      component: RegsiterView
+    },
+   
   ]
+})
+
+// Les gardients de navigation
+router.beforeEach((to, from) => {
+  const {isAuthenticated, user} = useAuth(auth);
+  if (!isAuthenticated && (to.name !== 'login' && to.name !== 'register')) {
+    return {name: 'login'}
+  }
 })
 
 export default router
